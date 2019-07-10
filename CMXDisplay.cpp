@@ -21,7 +21,7 @@ void Bienvenida()
 
 }
 
-void PintarDatos(float TA)
+void PintarDatos(float TA,bool alarma)
 {
   
   Pantalla.clear();
@@ -46,7 +46,7 @@ void PintarDatos(float TA)
 
   if(motores[2]){Pantalla.print("ok/on ");}else{Pantalla.print("ok/off");}
   
-  if(Alarma())
+  if(!alarma)
   {
      Pantalla.setCursor(0,0);
      Pantalla.print("Sistema funciondo ok");

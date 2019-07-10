@@ -25,13 +25,10 @@ DallasTemperature sensorTemp(&puertoTemp);
 //configuracion Zonda
 
 
-bool configurar=true;
+bool configurar=false;
 bool motores[3]={false,false,false};
+float temperaturaIdeal=22;
 
-bool Alarma()
-{
-  return true;
-}
 
 
 void setup() 
@@ -49,10 +46,10 @@ void loop()
 {
     Bienvenida();
     
-    while(configurar)
+    while(!configurar)
     {
           
-     PintarDatos(TemperaturaAmbiente(sensorTemp));
+     PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
     }
     
   
