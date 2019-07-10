@@ -1,23 +1,9 @@
+#include "Modulos.h"
 #include "Arduino.h"
-#include "CMXControlZonda.h"
+#include <DallasTemperature.h>
 
-
-
-CMXControlZonda::CMXControlZonda(int _pinZonda)
+float TemperaturaAmbiente(DallasTemperature sensor)
 {
-	pinZonda =_pinZonda;
-
+ 	sensor.requestTemperatures();
+	return sensor.getTempCByIndex(0);
 }
-int CMXControlZonda::GetPin()
-{
-  return pinZonda;
-}
-
-float CMXControlZonda::Consultar(DallasTemperature sensorTemp)
-{
-  
-	sensorTemp.requestTemperatures();
-	return sensorTemp.getTempCByIndex(0);
-}
-
-
