@@ -24,9 +24,6 @@ bool Alarma()
   return EstatusDeSistema();
 }
 
-int cuenta=0;
-int estadoBoton;
-int estadoBotonAnterior;
 
 bool EstabilizarPulso(int pin)
 {
@@ -53,27 +50,60 @@ bool EstabilizarPulso(int pin)
 
 void ConfigTemp()
 {
-	PantallaConfiguracion(temperaturaIdeal);
-  bool fin=false;
-  while(fin)
-  {
-    if(digitalRead(_si)==HIGH||digitalRead(_no)==HIGH)
-    {
-      fin==true;
-      return 0;
-    }
   
-    if(digitalRead(_mas)==HIGH)
+  int Esi,Eno,Emas,Emen;
+  int EAsi;
+  int EAno;
+  int EAmas;
+  int EAmen;
+  
+	PantallaConfiguracion(temperaturaIdeal);
+  bool fin=true;
+  float NuevaTI=temperaturaIdeal;
+  
+  do
+  {
+    delay(5);
+      
+   
+    Esi=digitalRead(_si);
+    if(Esi!=EAsi)
     {
-      temperaturaIdeal+1;
-      PantallaConfiguracion(temperaturaIdeal);
+      if(EstabilizarPulso(_si))
+      {
+        temperaturaIdeal=NuevaTI;
+         fin=false;  
+      }
     }
     
-    if(digitalRead(_mas)==HIGH)
+    Eno=digitalRead(_no);
+    if(Eno!=EAno)
     {
-      temperaturaIdeal-1;
-      PantallaConfiguracion(temperaturaIdeal);
+      if(EstabilizarPulso(_no))
+      {
+        fin=false;  
+      }
     }
     
-  }
+    Emas=digitalRead(_mas);
+    if(Emas!=EAmas)
+    {
+      if(EstabilizarPulso(_mas))
+      {
+        NuevaTI++;
+      }
+      PantallaConfiguracion(NuevaTI);
+    }
+
+     Emen=digitalRead(_men);
+    if(Emen!=EAmen)
+    {
+      if(EstabilizarPulso(_men))
+      {
+        NuevaTI--;
+      }
+      PantallaConfiguracion(NuevaTI);
+    }
+    
+  }while(fin);
 }

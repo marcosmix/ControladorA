@@ -47,23 +47,25 @@ void setup()
   pinMode(_no, INPUT);
 }
 
-int pulso;
+int Esi,EAsi;
 void loop() 
 {
     Bienvenida();
     
     while(!apagar)
     {
-      pulso=digitalRead(_si); 
-      PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
       
-      if(pulso==1)
+      PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
+      Esi=digitalRead(_si); 
+      if(Esi!=EAsi)
       {
-          ConfigTemp();
-          pulso=0;
+       if(EstabilizarPulso(_si))
+       {
+        ConfigTemp();
+       }
+      
       }
-       
+     
     }
-    
-  
+     
 }
