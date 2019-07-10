@@ -1,8 +1,6 @@
 #ifndef CMXControlZonda_h
 #define CMXControlZonda_h
 #include "Arduino.h"
-#include <OneWire.h>
-#include <DallasTemperature.h>
 
 class CMXControlZonda
 {

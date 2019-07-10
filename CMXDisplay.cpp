@@ -1,16 +1,10 @@
 #include "Arduino.h"
-#include "CMXDisplay.h"
-#include <LiquidCrystal.h>
+#include "Modulos.h"
 
-CMXDisplay::CMXDisplay(int pinD)
-{
-  _pinD=pinD;
-}
-int CMXDisplay::GetPin()
-{
-  return _pinD;
-}
-void CMXDisplay::Bienvenida(LiquidCrystal Pantalla)
+
+
+
+void Bienvenida()
 {
 	delay(500);
 
@@ -25,8 +19,8 @@ void CMXDisplay::Bienvenida(LiquidCrystal Pantalla)
   }
 
 }
-
-void CMXDisplay::PintarDatos(LiquidCrystal Pantalla,float Temperatura,bool motor[3],bool Alarma)
+/*
+void PintarDatos(LiquidCrystal Pantalla,float Temperatura,bool motor[3],bool Alarma)
 {
   Pantalla.clear();
   Pantalla.setCursor(1,1);
@@ -60,4 +54,4 @@ void CMXDisplay::PintarDatos(LiquidCrystal Pantalla,float Temperatura,bool motor
 
   
   delay(5000);
-}
+}*/

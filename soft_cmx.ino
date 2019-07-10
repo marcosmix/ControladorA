@@ -1,19 +1,12 @@
-#include "CMXControlZonda.h"
-#include "CMXDisplay.h"
-
-#define COLS 20
-#define ROWS 4
-#define pinZ 12
-#define pinD
-LiquidCrystal Pantalla(12,11,5,4,3,2);
-OneWire puertoTemp(pinZ);
-DallasTemperature sensorTemp(&puertoTemp);
-CMXControlZonda zonda(pinZ);
-CMXDisplay xdisplay(pinD);
+#include "Modulos.h"
 
 
 bool configurar=true;
 bool motores[3]={false,false,false};
+bool Alarma()
+{
+  return false;
+}
 
 
 void setup() 
@@ -24,21 +17,15 @@ void setup()
 }
 
 
-bool Alarma()
-{
-  return false;
-}
+
 
 
 void loop() 
 {
-    xdisplay.Bienvenida(Pantalla,zonda.Consultar(sensorTemp),motores[3],Alarma());
+    Bienvenida();
     while(configurar)
     {
-    xdisplay.PintarDatos(Pantalla);
+    PintarDatos(Pantalla);
     }
   
 }
-
-
-

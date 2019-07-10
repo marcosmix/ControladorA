@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "CMXControlZonda.h"
-#include <DallasTemperature.h>
+
 
 
 CMXControlZonda::CMXControlZonda(int _pinZonda)
