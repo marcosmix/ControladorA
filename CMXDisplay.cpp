@@ -4,7 +4,7 @@
 
 extern LiquidCrystal Pantalla;
 extern bool motores[3];
-extern bool Alarma();
+
 
 void Bienvenida()
 {
@@ -55,7 +55,17 @@ void PintarDatos(float TA,bool alarma)
     Pantalla.setCursor(0,0);
      Pantalla.print("Error en sistema!!!");
   }
-
-  
+ 
   delay(5000);
+}
+
+
+void PantallaConfiguracion(float temp)
+{
+  Pantalla.clear();
+  Pantalla.setCursor(0,1);
+  Pantalla.print("Indique temperatura:");
+  Pantalla.setCursor(0,1);
+  Pantalla.print(temp);
+    
 }

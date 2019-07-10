@@ -14,6 +14,11 @@
 #define dD2  4
 #define dD3 3
 #define dD4 2
+#define _mas 10
+#define _men 8
+#define _si 7
+#define _no 6
+
 LiquidCrystal Pantalla(dRST,dE,dD1,dD2,dD3,dD4);
 //fin configuracion Display
 
@@ -25,7 +30,7 @@ DallasTemperature sensorTemp(&puertoTemp);
 //configuracion Zonda
 
 
-bool configurar=false;
+bool apagar=false;
 bool motores[3]={false,false,false};
 float temperaturaIdeal=22;
 
@@ -36,20 +41,28 @@ void setup()
   Serial.begin(9600);
   Pantalla.begin(COLS,ROWS);
   sensorTemp.begin();
+  pinMode(_mas, INPUT);
+  pinMode(_men, INPUT);
+  pinMode(_si, INPUT);
+  pinMode(_no, INPUT);
 }
 
-
-
-
-
+int pulso;
 void loop() 
 {
     Bienvenida();
     
-    while(!configurar)
+    while(!apagar)
     {
-          
-     PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
+      pulso=digitalRead(_si); 
+      PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
+      
+      if(pulso==1)
+      {
+          ConfigTemp();
+          pulso=0;
+      }
+       
     }
     
   
