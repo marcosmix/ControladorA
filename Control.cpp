@@ -69,7 +69,7 @@ void ConfigTemp()
   bool fin=false;
   float NuevaTI=temperaturaIdeal;
   
-  delay(1000);
+  delay(500);
   Serial.println("Entre a configara temperatura");
   do
   {
