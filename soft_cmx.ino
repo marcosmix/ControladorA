@@ -1,7 +1,4 @@
 #include "Modulos.h"
-#include <LiquidCrystal.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
 
 //Configuracion Disyplay 
 //columnas y filas
@@ -20,11 +17,12 @@ DallasTemperature sensorTemp(&puertoTemp);
 //configuracion Zonda
 
 
+bool motores[Cant_motores]={false,false,false};
+int _pMotores[Cant_motores]={_mot1,_mot2,_mot3};
+
 bool apagar=false;
-bool motores[3]={false,false,false};
-float temperaturaIdeal=22;
-
-
+float temperaturaIdeal=Leer_ZS(0);
+byte resetear=Leer_ZS(4);
 
 void setup() 
 {
@@ -35,23 +33,46 @@ void setup()
   pinMode(_men, INPUT);
   pinMode(_si, INPUT);
   pinMode(_no, INPUT);
+  ConfigurarMotores(_pMotores);
+  
 }
+
+
+//Serial.println("");
 
 
 void loop() 
 {
+  
+  if(resetear!=123)
+  {
+    
+    ConfiguracionIncial(&resetear);
+    temperaturaIdeal=Leer_ZS(0);
+  }
+  
   bool Epsi,EApsi=LOW;
+  bool Epno,EApno=LOW;
     Bienvenida();
-     Serial.println("estioy entrando al menu");
+     
     while(!apagar)
     {      
      PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
-     Serial.println("preguntando por el si en menu principal");
+     
      Epsi=EstabilizarPulso(_si);
-     Serial.println(Epsi);
+     Epno=EstabilizarPulso(_no);
+    
+     if((EApsi==LOW&&Epsi==HIGH)&&(EApno==LOW&&Epno==HIGH))
+     {ConfiguracionIncial(&resetear);}
+     
      if(EApsi==LOW&&Epsi==HIGH)
      {ConfigTemp();}      
-     EApsi=Epsi;            
+     
+     EApsi=Epsi;
+     EApno=Epno;
+     
+
+                 
     } 
-    Serial.println("termine ciclo");
+   
 }

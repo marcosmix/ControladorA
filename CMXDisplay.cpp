@@ -63,7 +63,7 @@ void PantallaConfiguracion(float temp)
   Pantalla.clear();
   Pantalla.setCursor(0,1);
   Pantalla.print("Indique temperatura:");
-  Pantalla.setCursor(0,1);
+  Pantalla.setCursor(0,2);
   Pantalla.print(temp);
     
 }

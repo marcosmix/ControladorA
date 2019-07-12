@@ -24,14 +24,7 @@ bool Alarma()
   return EstatusDeSistema();
 }
 
-bool LeerPulsoEnBajo(int pin,bool EstA)
-{
-  if(digitalRead(pin)==LOW)
-  return true;
-  
-  if(digitalRead(pin)==HIGH&&EstA)
-  return false;
-}
+
 
 bool EstabilizarPulso(int pin)
 {
@@ -70,34 +63,22 @@ void ConfigTemp()
   float NuevaTI=temperaturaIdeal;
   
   delay(500);
-  Serial.println("Entre a configara temperatura");
   do
   {
-    Serial.println("Pregunto por el si");
-    Serial.println(_si);
     Esi=EstabilizarPulso(_si);
-    Serial.println(Esi);
-    Serial.println(EAsi);
-    Serial.println("al pulsar si");
-    Serial.println(ESalir);
-    Serial.println(EASalir);
     if(EAsi==LOW&&Esi==HIGH)
     {     
        temperaturaIdeal=NuevaTI;
        fin=true;  
-       Serial.println("Me fui por el si");
+       Guardar_ZS(0,NuevaTI);
     }
     EAsi=Esi;
     
-    Serial.println("Pregunto por el no");
-    Serial.println(_no);
     ESalir=EstabilizarPulso(_no);
-    Serial.println(ESalir);
-    Serial.println(EASalir);
     if(EASalir==LOW&&ESalir==HIGH)
     {
         fin=true;  
-        Serial.println("Me fui por el no");
+        
     }
     EASalir=ESalir;
     
@@ -114,8 +95,27 @@ void ConfigTemp()
        NuevaTI--;
     }
     EAmen=Emen;
-    Serial.println("pinto en pantalla y vuelo al ciclo");
+    
     PantallaConfiguracion(NuevaTI);
   }while(!fin);
-   Serial.println("salgo a configara temperatura");
-}
+ }
+
+ void  ConfiguracionIncial(byte resetear)
+ {
+    Guardar_ZS(0,25);
+    Guardar_ZS(4,123);
+    resetear=Leer_ZS(4);
+   
+ }
+
+ void ControlarTemperatura(float temp[T],float TA)
+ {
+      for(int i=0;i<T;i++)
+      {
+        if(TA>temp[i])
+        {
+         ControlMotores(i); 
+        }
+      }
+      
+ }
