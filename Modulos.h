@@ -16,5 +16,6 @@ bool EstatusDeSistema();
 bool Alarma();
 void ConfigTemp();
 bool EstabilizarPulso(int pin);
+bool LeerPulsoEnBajo(int pin,bool EstA);
 
 #endif 

@@ -16,9 +16,7 @@ void Bienvenida()
     Pantalla.setCursor(0,i);
     Pantalla.print("Bievenido");
     delay(500);
-    
   }
-
 }
 
 void PintarDatos(float TA,bool alarma)
@@ -55,8 +53,8 @@ void PintarDatos(float TA,bool alarma)
     Pantalla.setCursor(0,0);
      Pantalla.print("Error en sistema!!!");
   }
- 
-  delay(5000);
+  
+  
 }
 
 

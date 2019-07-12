@@ -24,6 +24,14 @@ bool Alarma()
   return EstatusDeSistema();
 }
 
+bool LeerPulsoEnBajo(int pin,bool EstA)
+{
+  if(digitalRead(pin)==LOW)
+  return true;
+  
+  if(digitalRead(pin)==HIGH&&EstA)
+  return false;
+}
 
 bool EstabilizarPulso(int pin)
 {
@@ -48,62 +56,66 @@ bool EstabilizarPulso(int pin)
   return estado;
 }
 
+
+
 void ConfigTemp()
 {
-  
-  int Esi,Eno,Emas,Emen;
-  int EAsi;
-  int EAno;
-  int EAmas;
-  int EAmen;
+  bool Esi,Emas,Emen,EAsi=false,EAmas=false,EAmen=false;
+  //EAno=false,Eno,
+  bool ESalir;
+  bool EASalir=false;
   
 	PantallaConfiguracion(temperaturaIdeal);
-  bool fin=true;
+  bool fin=false;
   float NuevaTI=temperaturaIdeal;
   
+  delay(1000);
+  Serial.println("Entre a configara temperatura");
   do
   {
-    delay(5);
-      
+    Serial.println("Pregunto por el si");
+    Serial.println(_si);
+    Esi=EstabilizarPulso(_si);
+    Serial.println(Esi);
+    Serial.println(EAsi);
+    Serial.println("al pulsar si");
+    Serial.println(ESalir);
+    Serial.println(EASalir);
+    if(EAsi==LOW&&Esi==HIGH)
+    {     
+       temperaturaIdeal=NuevaTI;
+       fin=true;  
+       Serial.println("Me fui por el si");
+    }
+    EAsi=Esi;
+    
+    Serial.println("Pregunto por el no");
+    Serial.println(_no);
+    ESalir=EstabilizarPulso(_no);
+    Serial.println(ESalir);
+    Serial.println(EASalir);
+    if(EASalir==LOW&&ESalir==HIGH)
+    {
+        fin=true;  
+        Serial.println("Me fui por el no");
+    }
+    EASalir=ESalir;
+    
+    Emas=EstabilizarPulso(_mas);
+    if(EAmas==LOW&&Emas==HIGH)
+    {
+      NuevaTI++;
+    }
+    EAmas=Emas;
    
-    Esi=digitalRead(_si);
-    if(Esi!=EAsi)
+    Emen=EstabilizarPulso(_men);
+    if(EAmen==LOW&&Emen==HIGH)
     {
-      if(EstabilizarPulso(_si))
-      {
-        temperaturaIdeal=NuevaTI;
-         fin=false;  
-      }
+       NuevaTI--;
     }
-    
-    Eno=digitalRead(_no);
-    if(Eno!=EAno)
-    {
-      if(EstabilizarPulso(_no))
-      {
-        fin=false;  
-      }
-    }
-    
-    Emas=digitalRead(_mas);
-    if(Emas!=EAmas)
-    {
-      if(EstabilizarPulso(_mas))
-      {
-        NuevaTI++;
-      }
-      PantallaConfiguracion(NuevaTI);
-    }
-
-     Emen=digitalRead(_men);
-    if(Emen!=EAmen)
-    {
-      if(EstabilizarPulso(_men))
-      {
-        NuevaTI--;
-      }
-      PantallaConfiguracion(NuevaTI);
-    }
-    
-  }while(fin);
+    EAmen=Emen;
+    Serial.println("pinto en pantalla y vuelo al ciclo");
+    PantallaConfiguracion(NuevaTI);
+  }while(!fin);
+   Serial.println("salgo a configara temperatura");
 }

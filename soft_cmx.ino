@@ -47,25 +47,21 @@ void setup()
   pinMode(_no, INPUT);
 }
 
-int Esi,EAsi;
+
 void loop() 
 {
+  bool Epsi,EApsi=LOW;
     Bienvenida();
-    
+     Serial.println("estioy entrando al menu");
     while(!apagar)
-    {
-      
-      PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
-      Esi=digitalRead(_si); 
-      if(Esi!=EAsi)
-      {
-       if(EstabilizarPulso(_si))
-       {
-        ConfigTemp();
-       }
-      
-      }
-     
-    }
-     
+    {      
+     PintarDatos(TemperaturaAmbiente(sensorTemp),Alarma());
+     Serial.println("preguntando por el si en menu principal");
+     Epsi=EstabilizarPulso(_si);
+     Serial.println(Epsi);
+     if(EApsi==LOW&&Epsi==HIGH)
+     {ConfigTemp();}      
+     EApsi=Epsi;            
+    } 
+    Serial.println("termine ciclo");
 }
